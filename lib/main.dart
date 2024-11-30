@@ -1,12 +1,23 @@
 import 'package:cubit_327/counter_cubit.dart';
+import 'package:cubit_327/list_cubit.dart';
+import 'package:cubit_327/list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(BlocProvider(
-    create: (context) => CounterCubit(),
-    child: MyApp(),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CounterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ListCubit(),
+        )
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +47,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: ListPage(),
     );
   }
 }
@@ -83,7 +94,7 @@ class MyHomePage extends StatelessWidget {
               'You have pushed the button this many times:',
             ),
             Text(
-              '${context.watch<CounterCubit>().state}',
+              '${context.watch<CounterCubit>().state.count}',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
